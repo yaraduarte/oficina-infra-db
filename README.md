@@ -38,12 +38,27 @@ terraform apply -var="db_password=SUA_SENHA"
 
 ## CI/CD
 
-O pipeline executa automaticamente ao fazer push na branch `main`:
+Pipeline em `.github/workflows/deploy.yml`:
 
-1. `terraform init` — inicializa o backend S3
-2. `terraform validate` — valida os arquivos
-3. `terraform plan` — exibe as mudanças
-4. `terraform apply` — aplica (apenas na branch main)
+1. `terraform fmt -check` — padronização
+2. `terraform init` — inicializa o backend S3
+3. `terraform validate` — valida os arquivos
+4. `terraform plan` — exibe as mudanças (resumo no job)
+5. `terraform apply` — somente após merge na `main`
+
+### Fluxo de branches e ambientes
+
+```
+feature/*  ──PR──►  homolog  ──PR──►  main
+                      │                 │
+                      ▼                 ▼
+   plan (revisão das mudanças)    terraform apply (produção)
+```
+
+- `main` e `homolog` são **protegidas**: push direto bloqueado (inclusive para admin), merge só via Pull Request com os checks obrigatórios verdes e conversas resolvidas.
+- Todo PR roda o pipeline de validação; o deploy acontece apenas após o merge.
+
+O RDS é compartilhado entre ambientes: a homologação usa o database `oficina_db_hml` na mesma instância (criado pelo pipeline da aplicação).
 
 ### Secrets necessários no GitHub
 
