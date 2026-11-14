@@ -26,7 +26,7 @@ Terraform
 
 - AWS CLI configurado (`aws configure`)
 - Terraform >= 1.5 instalado
-- Bucket S3 `oficina-marimb0ndo-tfstate` criado na conta AWS
+- Bucket S3 `oficina-marimb0ndo-tfstate-528568030535` criado na conta AWS
 
 ## Como executar localmente
 

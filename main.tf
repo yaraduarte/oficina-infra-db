@@ -8,7 +8,7 @@ terraform {
   required_version = ">= 1.5"
 
   backend "s3" {
-    bucket = "oficina-marimb0ndo-tfstate"
+    bucket = "oficina-marimb0ndo-tfstate-528568030535"
     key    = "infra-db/terraform.tfstate"
     region = "us-east-1"
   }
